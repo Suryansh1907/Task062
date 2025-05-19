@@ -1,0 +1,15 @@
+name_prefix          = "cmaz-eh8dj90z-mod6"
+location             = "westus2"
+key_vault_rg_name    = "cmaz-eh8dj90z-mod6-kv-rg"
+key_vault_name       = "cmaz-eh8dj90z-mod6-kv"
+sql_db_sku           = "S2"
+sql_admin_username   = "sqladmin"
+secret_name_admin    = "sql-admin-name"
+secret_name_password = "sql-admin-password"
+allowed_ip_address   = "18.153.146.156"
+firewall_rule_name   = "allow-verification-ip"
+asp_sku              = "P0v3"
+dotnet_version       = "8.0"
+tags = {
+  Creator = "suryansh_tilak@epam.com"
+}
