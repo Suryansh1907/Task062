@@ -1,13 +1,19 @@
-output "sql_server_fqdn" {
-  description = "The fully qualified domain name of the Azure SQL Server."
-  value       = azurerm_mssql_server.sql_server.fully_qualified_domain_name
+# Use the secret directly in the connection string
+output "sql_connection_string" {
+  description = "SQL Connection String for ADO.NET clients"
+  value = format(
+    "Server=tcp:%s,1433;Initial Catalog=%s;Persist Security Info=False;User ID=%s;Password=%s;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
+    azurerm_mssql_server.sql.fully_qualified_domain_name,
+    azurerm_mssql_database.sql_db.name,
+    var.sql_admin_username,
+    random_password.sql_password.result
+  )
+  sensitive = true
 }
 
-# Explicitly marked as sensitive to ensure secure handling of the connection string
-output "sql_connection_string" {
-  description = "The ADO.NET connection string for the Azure SQL Database with SQL authentication."
-  value       = "Server=tcp:${azurerm_mssql_server.sql_server.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_mssql_database.sql_db.name};Persist Security Info=False;User ID=${var.sql_admin_username};Password=${random_password.sql_admin_password.result};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
-  sensitive   = true
+output "sql_server_fqdn" {
+  description = "SQL Server FQDN"
+  value       = azurerm_mssql_server.sql.fully_qualified_domain_name
 }
 
 # Test output to verify if validation tool recognizes sensitive attribute
